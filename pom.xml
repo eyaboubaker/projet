@@ -619,7 +619,18 @@
                             </execution>
                         </executions>
                     </plugin>
-
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>INSERT_VERSION_HERE</version>
+                        <executions>
+                            <execution>
+                               <goals>
+                                 <goal>check</goal>
+                               </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>com.gitlab.haynes</groupId>
                         <artifactId>libsass-maven-plugin</artifactId>
