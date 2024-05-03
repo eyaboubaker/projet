@@ -52,6 +52,11 @@ pipeline {
                 }
             }
         }
+         stage('Build') {
+            steps {
+               sh "mvn clean package -DskipTests=true" "
+            }
+        }
         
         stage('OWASP Dependency Check') {
             steps {
@@ -89,7 +94,8 @@ pipeline {
             steps {
                script {
                    withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh "docker build -t  boubakereya22/pet-clinic123:latest ."
+                            sh "docker build -t pet-clinic123 -f docker/Dockerfile ."
+                            sh "docker tag  pet-clinic123 boubakereya22/pet-clinic123:latest "
                     }
                }
             }
@@ -121,10 +127,9 @@ pipeline {
                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.146:6443') {
                         sh "kubectl get pods -n webapps"
                         sh "kubectl get svc -n webapps"
-               }
+                }
             }
         }
         
         
     }
-}
