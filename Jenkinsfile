@@ -3,7 +3,7 @@ pipeline {
     
     tools{
         jdk 'jdk11'
-        maven 'maven3'
+        maven 'maven'
     }
     
     environment {
@@ -48,7 +48,7 @@ pipeline {
          stage('Quality Gate') {
             steps {
                 script {
-                  waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
+                  waitForQualityGate abortPipeline: false, credentialsId: 'sonartoken' 
                 }
             }
         }
@@ -60,7 +60,7 @@ pipeline {
         
         stage('OWASP Dependency Check') {
             steps {
-                dependencyCheck additionalArguments: '--scan target/', odcInstallation: 'owasp'
+                dependencyCheck additionalArguments: '--scan target/', odcInstallation: 'DP-Check'
             }
         }
         
@@ -84,7 +84,7 @@ pipeline {
         }
          stage('Publish To Nexus') {
             steps {
-               withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+               withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'OpenJDK-17', maven: 'maven', mavenSettingsConfig: '', traceability: true) {
                     sh "mvn deploy"
                 }
             }
@@ -93,7 +93,7 @@ pipeline {
         stage('Build & Tag Docker Image') {
             steps {
                script {
-                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
                             sh "docker build -t pet-clinic123 -f docker/Dockerfile ."
                             sh "docker tag  pet-clinic123 boubakereya22/pet-clinic123:latest "
                     }
@@ -109,7 +109,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                script {
-                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
                             sh "docker push boubakereya22/pet-clinic123:latest"
                     }
                }
@@ -122,21 +122,7 @@ pipeline {
                 sh 'docker run -d --name petclinic -p 8082:8082 boubakereya22/pet-clinic123:latest'}
             }
         }
-        stage('Deploy To Kubernetes') {
-            steps {
-               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.146:6443') {
-                        sh "kubectl apply -f deployment-service.yaml"
-                }
-            }
         }
-        stage('Verify the Deployment') {
-            steps {
-               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.8.146:6443') {
-                        sh "kubectl get pods -n webapps"
-                        sh "kubectl get svc -n webapps"
-                }
-            }
-        }
-        
-        
     }
+}
+
