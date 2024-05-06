@@ -2,7 +2,6 @@ pipeline {
     agent any 
     
     tools{
-        jdk 'jdk11'
         maven 'maven'
     }
     
@@ -45,13 +44,6 @@ pipeline {
                 }
             }
         }
-         stage('Quality Gate') {
-            steps {
-                script {
-                  waitForQualityGate abortPipeline: false, credentialsId: 'sonartoken' 
-                }
-            }
-        }
        
         stage('OWASP Dependency Check') {
             steps {
@@ -74,16 +66,15 @@ pipeline {
         
           stage('Build') {
             steps {
-               sh "mvn clean package -DskipTests=true" "
+               sh "mvn clean package -DskipTests=true"
             }
         }
-         
+        
         stage('Build & Tag Docker Image') {
             steps {
                script {
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
-                            sh "docker build -t pet-clinic123 -f docker/Dockerfile ."
-                            sh "docker tag  pet-clinic123 boubakereya22/pet-clinic123:latest "
+                            sh "docker build -t boubakereya22/pet-clinic123:latest . "
                     }
                }
             }
@@ -113,4 +104,3 @@ pipeline {
         }
     }
 }
-
