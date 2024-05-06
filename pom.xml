@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -82,6 +83,7 @@
         <jacoco-maven-plugin>0.8.11</jacoco-maven-plugin>
         <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
         <libsass-maven-plugin.version>0.2.29</libsass-maven-plugin.version>
+        <jacoco-maven-plugin>0.8.6</jacoco-maven-plugin>
 
         <!-- Docker image -->
         <docker.jib-maven-plugin.version>3.4.0</docker.jib-maven-plugin.version>
@@ -652,7 +654,7 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
+   </profiles>
                <distributionManagement>
     <repository>
       <id>maven-releases</id>
@@ -664,5 +666,8 @@
       <name>maven-snapshots</name>
       <url>http://192.168.0.9:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
-</distributionManagement>       
+</distributionManagement>   
 </project>
+
+    
+
