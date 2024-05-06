@@ -590,7 +590,6 @@
                 </dependency>
             </dependencies>
         </profile>
-   </profiles>
         <profile>
             <id>css</id>
             <build>
@@ -652,6 +651,8 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+    </profiles>
                <distributionManagement>
     <repository>
       <id>maven-releases</id>
