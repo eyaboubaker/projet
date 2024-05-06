@@ -77,14 +77,7 @@ pipeline {
                sh "mvn clean package -DskipTests=true" "
             }
         }
-         stage('Publish To Nexus') {
-            steps {
-               withMaven(globalMavenSettingsConfig: 'global-settings', maven: 'maven', mavenSettingsConfig: '', traceability: true) {
-                    sh "mvn deploy"
-                }
-            }
-        }
-        
+         
         stage('Build & Tag Docker Image') {
             steps {
                script {
