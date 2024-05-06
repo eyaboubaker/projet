@@ -52,12 +52,7 @@ pipeline {
                 }
             }
         }
-         stage('Build') {
-            steps {
-               sh "mvn clean package"
-            }
-        }
-        
+       
         stage('OWASP Dependency Check') {
             steps {
                 dependencyCheck additionalArguments: '--scan target/', odcInstallation: 'DP-Check'
