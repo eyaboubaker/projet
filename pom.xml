@@ -590,6 +590,7 @@
                 </dependency>
             </dependencies>
         </profile>
+   </profiles>
         <profile>
             <id>css</id>
             <build>
@@ -655,19 +656,12 @@
     <repository>
       <id>maven-releases</id>
       <name>maven-releases</name>
-      <url>http://192.168.1.22:8081/repository/maven-releases/</url>
+      <url>http://192.168.0.9:8081/repository/maven-releases/</url>
     </repository>
     <snapshotRepository>
       <id>maven-snapshots</id>
       <name>maven-snapshots</name>
-      <url>http://192.168.1.22:8081/repository/maven-snapshots/</url>
+      <url>http://192.168.0.9:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
-</distributionManagement>
-
-
-</project>
-                   
-        </profile>
-   </profiles>
-
+</distributionManagement>       
 </project>
